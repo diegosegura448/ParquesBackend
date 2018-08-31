@@ -5,12 +5,16 @@
  */
 package co.com.iteria.parquesbackend.service;
 
+import java.awt.Event;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  *
- * @author Usuario1
+ * @author Diego Fernando Segura
  */
 public abstract class AbstractFacade<T> {
 
@@ -59,6 +63,14 @@ public abstract class AbstractFacade<T> {
         cq.select(getEntityManager().getCriteriaBuilder().count(rt));
         javax.persistence.Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
+    }
+    
+    public int last() {
+        return Integer.parseInt(getEntityManager().createQuery("select COALESCE(max(p.id),0) from Parks p").getSingleResult().toString());
+    }
+    
+    public List<T> findByEstado(Object estado) {
+        return getEntityManager().createQuery("select p from Parks p where p.status = :estado").setParameter("estado", estado).getResultList();
     }
     
 }
