@@ -113,14 +113,14 @@ public class ParksFacadeREST extends AbstractFacade<Parks> {
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public JsonObject encontrarPorID(@PathParam("id") Integer id) {
+    public JsonObject encontrarPorID(@PathParam("id") String id) {
 
         Parks parqueTemp = super.find(id);
         JsonObject json = Json.createObjectBuilder()
                 .add("id", parqueTemp.getId())
                 .add("name", parqueTemp.getName())
                 .add("state", parqueTemp.getState())
-                .add("capacity", parqueTemp.getCapacity())
+                .add("capacity", Integer.parseInt(parqueTemp.getCapacity()))
                 .add("status", parqueTemp.getStatus())
                 .build();
         
